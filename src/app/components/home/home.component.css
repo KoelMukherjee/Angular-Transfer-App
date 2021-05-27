@@ -1,0 +1,21 @@
+.website-cover {
+    background-image: url('/assets/xhero_2.jpg');
+    height: 900px;
+}
+.slide h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+    font-weight: 900;
+    color: #FFF;
+    text-align: center;
+    padding-top: 100px;
+
+}
+.slide p, .card-title {
+    color:#FFF;
+    font-size: 1.4rem;
+    font-weight: 300;
+    text-align: center;
+}
+
+

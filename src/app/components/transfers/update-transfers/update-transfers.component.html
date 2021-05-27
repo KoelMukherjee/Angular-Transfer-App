@@ -1,0 +1,72 @@
+<a  href="javascript:void(0);" [ngClass] = "operationName === 'New Transaction'? 'text-white' : 'm-2'"(click)="openModal(updateModal);  viewTransferDetails()">{{operationName}}</a>
+
+<ng-template #updateModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{operationName == 'Edit' ? 'Edit Transfer' : 'New Transaction'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" (ngSubmit)="f.form.valid && onClickSubmit(f)" #f="ngForm">
+      <div class="form-row">
+        <div class="form-group col-md-6" *ngIf="operationName == 'Edit'">
+          <label class="form-label font-weight-bold">ID</label>
+          <input type="text" name="ID" class="form-control" #ID="ngModel" [(ngModel)]="viewTransfer.ID" readonly>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label font-weight-bold">Account Holder</label>
+          <input type="text" name="account_holder" class="form-control" [(ngModel)]="viewTransfer.account_holder"
+            #account_holder="ngModel" [ngClass]="{ 'is-invalid': account_holder.touched && account_holder.invalid }" required>
+          <div *ngIf="account_holder.invalid" class="invalid-feedback">
+            <div>Account Holder is required</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label font-weight-bold">IBAN</label>
+          <input type="text" name="iban" class="form-control" #iban="ngModel" [(ngModel)]="viewTransfer.iban"
+            [ngClass]="{ 'is-invalid': iban.touched && iban.invalid }" required>
+          <div *ngIf="iban.touched && iban.invalid" class="invalid-feedback">
+            <div *ngIf="iban.errors.required">IBAN is required</div>
+            <div *ngIf="iban.errors.iban">
+              IBAN is invalid
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label font-weight-bold">Amount</label>
+          <input type="text" name="amount" class="form-control" [(ngModel)]="viewTransfer.amount" #amount="ngModel"
+            [ngClass]="{ 'is-invalid': amount.touched && amount.invalid }" 
+            required 
+            minlength="2" 
+            maxlength="8" 
+            [range] = "[50,20000000]">
+          <div *ngIf="amount.touched && amount.invalid" class="invalid-feedback">
+            <div *ngIf="amount.errors.required">Amount is required</div>
+            <div *ngIf="amount.errors.minlength">Amount should have minimum 2 characters</div>
+            <div *ngIf="amount.errors.maxlength">Amount should have maximum 8 characters</div>
+            <div *ngIf="amount.errors?.range">Amount should be in between 50€ and 20000000€</div>
+            <div *ngIf="amount.errors?.pattern">Amount is in Invalid format</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label font-weight-bold">Date</label>
+          <input type="date" name="date" class="form-control" #date="ngModel" [(ngModel)]="viewTransfer.date"
+            [ngClass]="{ 'is-invalid': date.touched && date.invalid }" required>
+          <div *ngIf="date.touched && date.invalid" class="invalid-feedback">
+            <div *ngIf="date.errors.required">Date is required</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label class="form-label font-weight-bold">Note</label>
+          <input type="text" name="note" class="form-control" #note="ngModel" [(ngModel)]="viewTransfer.note">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"(click)="modal.close('Save click')">Submit</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>

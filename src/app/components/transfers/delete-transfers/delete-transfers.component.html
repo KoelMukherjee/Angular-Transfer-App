@@ -1,0 +1,17 @@
+<a class="ml-2" href="javascript:void(0);" (click)="openModal(deletemodal)">Delete</a>
+   
+    <ng-template #deletemodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ modalHeader }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       {{ modalBody }} {{transferID}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Ok</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+      </div>
+    </ng-template>

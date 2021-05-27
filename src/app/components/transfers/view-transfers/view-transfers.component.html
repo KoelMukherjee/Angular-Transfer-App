@@ -1,0 +1,43 @@
+<a class="m-2" href="javascript:void(0)" (click)="openModal(viewModal); viewTransferDetails()">View</a>
+
+<ng-template #viewModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">View Tranfer</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+          <label for="ID" class="form-label font-weight-bold pr-3">ID:</label>
+          {{viewTransfer.ID}}
+        </div>
+        <div class="col-md-6">
+          <label for="account_holder" class="form-label font-weight-bold pr-3">Account Holder:</label>
+          {{viewTransfer.account_holder}}
+        </div>
+      <div class="col-md-6">
+        <label for="IBAN" class="form-label font-weight-bold pr-3">IBAN:</label>
+        {{viewTransfer.iban}}
+      </div>
+      <div class="col-md-6">
+        <label for="Amount" class="form-label font-weight-bold pr-3">Amount:</label>
+        {{viewTransfer.amount}}
+      </div>
+      <div class="col-md-6">
+        <label for="Date" class="form-label font-weight-bold pr-3">Date:</label>
+        {{viewTransfer.date | date: 'dd/MM/yyyy'}}
+
+      </div>
+      <div class="col-md-6">
+        <label for="Note" class="form-label font-weight-bold pr-3">Note:</label>
+        {{viewTransfer.note}}
+      </div>
+    </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+  </div>
+  </div>
+  
+</ng-template>

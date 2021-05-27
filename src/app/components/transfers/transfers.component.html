@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 col-sm-10">
+      <input type="text" id="searchString" [(ngModel)]="searchString" placeholder="Search by Account holders or Notes"
+      title="Type in a name">
+    </div>
+    <div class="col-xs-4 col-sm-2">
+        <button class="btn btn-primary m-2"><update-transfers [operationName] = "'New Transaction'"></update-transfers></button>
+    </div>
+  </div>
+  
+  <table class="table table-bordered table-responsive d-none d-lg-block">
+    <thead scope="row" class="thead-dark">
+      <tr>
+        <th style="width:30%">ID</th>
+        <th>Account Holder</th>
+        <th style="width:30%">IBAN</th>
+        <th>Amount<a *ngIf="sortAmount" (click)="sort('desc', 'amount')"><i class="icon-sort-up p-2"></i></a><a
+            *ngIf="!sortAmount" (click)="sort('asc', 'amount')"><i class="icon-sort-down p-2"></i></a></th>
+        <th>Date<a *ngIf="sortDate" (click)="sort('desc', 'date')"><i class="icon-sort-up p-2"></i></a><a
+            *ngIf="!sortDate" (click)="sort('asc', 'date')"><i class="icon-sort-down p-2"></i></a></th>
+        <th>Note</th>
+        <th>Action(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transfer of transfer_details | sort:order:param |
+        searchFilter:searchString ; index as i">
+        <td>
+          {{ transfer.ID }}
+        </td>
+        <td>{{ transfer.account_holder }}</td>
+        <td>{{ transfer.iban }}</td>
+        <td>{{ transfer.amount | numberFormatterFilter }}</td>
+        <td>{{ transfer.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ transfer.note }}</td>
+        <td>
+          <view-transfers [transferID]="transfer.ID"></view-transfers>|<update-transfers (editItemEvent)= "reloadTransferDetails($event)" [operationName]="'Edit'"
+            [transferID]="transfer.ID"></update-transfers>|<delete-transfers [modalHeader]="modalHeader"
+            [modalBody]="modalBody" [transferID]="transfer.ID" (deleteItemEvent) = "reloadTransferDetails($event)"></delete-transfers>
+            </td>
+      </tr>
+      <tr  class="font-weight-bold" *ngIf="searchString.length != 0 && !(transfer_details | searchFilter:searchString).length">No Result Found</tr>
+    </tbody>
+  </table>
+  
+  <table class="table-responsive mobile-view d-sm-block d-lg-none">
+    <tr *ngFor="let transfer of transfer_details | searchFilter:searchString ; index as i">
+      <td>
+        <label class="font-weight-bold">ID:</label> {{ transfer.ID }}
+      </td>
+      <td>
+        <label class="font-weight-bold">Account Holder:</label> {{ transfer.account_holder }}</td>
+      <td>
+        <label class="font-weight-bold">IBAN:</label> {{ transfer.iban }}</td>
+      <td>
+        <label class="font-weight-bold">Amount:</label> {{ transfer.amount | numberFormatterFilter }}</td>
+      <td>
+        <label class="font-weight-bold">Date:</label> {{ transfer.date | date: 'dd/MM/yyyy' }}</td>
+      <td>
+        <label class="font-weight-bold">Note:</label> {{ transfer.note }}</td>
+      <td>
+        <label class="font-weight-bold">Action(s):</label>
+        <view-transfers [transferID]="transfer.ID"></view-transfers>|<update-transfers (editItemEvent)= "reloadTransferDetails($event)" [operationName]="'Edit'"
+          [transferID]="transfer.ID"></update-transfers>| <delete-transfers (newItemEvent) = "reloadTransferDetails($event)" [modalHeader]="modalHeader"
+          [modalBody]="modalBody" [transferID]="transfer.ID" ></delete-transfers>
+      </td>
+    </tr>
+    <tr class="font-weight-bold" *ngIf="searchString.length != 0 && !(transfer_details | searchFilter:searchString).length">No Result Found</tr>
+  </table>
+
+</div>
